@@ -2,7 +2,7 @@ const { Comment, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-class User extends Comment {
+class Comment extends Models {
     checkPassword(loginPw) {
       return bcrypt.compareSync(loginPw, this.password);
     }
@@ -16,6 +16,9 @@ class User extends Comment {
             primaryKey: true,
             autoIncrement: true,
         },
+        date: {
+          type: DataTypes.INTEGER
+        },
         user_id: {
             type: DataTypes.INTEGER,
             references: {
@@ -23,10 +26,12 @@ class User extends Comment {
               key: 'id',
             },
         },
-        date: {
-            type: DataTypes.INTEGER
-        },
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'user',
     }
-  )
+  );
 
   module.exports = Comment;
